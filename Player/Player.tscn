@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 25, 25 )
 
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
@@ -23,5 +27,32 @@ texture = ExtResource( 2 )
 scale = Vector2( 3, 3 )
 build_mode = 0
 polygon = PoolVector2Array( -11.1282, -10.5665, -11.1282, 10.6456, 11.0745, 10.5873, 11.0304, -10.5543 )
+
+[node name="Area2D" type="Area2D" parent="." index="2"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Visibility" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+
+position = Vector2( 60, 0 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Area2D" index="1"]
+
+self_modulate = Color( 0.112793, 0.839272, 0.875, 1 )
+position = Vector2( 60, 0 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Visibility" ]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 
 
